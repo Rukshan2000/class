@@ -106,127 +106,85 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Quiz questions
             const quizQuestions = [
-                {
-                    question: "Which logic gate outputs 1 only when all inputs are 1?",
-                    options: ["AND", "OR", "NAND", "NOR"],
-                    correctAnswer: "AND",
-                    explanation: "The AND gate outputs 1 only when all inputs are 1. Otherwise, it outputs 0."
-                },
-                {
-                    question: "Which gate is represented by this truth table?<br><table class='mx-auto my-3 border-collapse'><tr><th class='border px-3 py-1'>A</th><th class='border px-3 py-1'>B</th><th class='border px-3 py-1'>Y</th></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td></tr></table>",
-                    options: ["AND", "OR", "NAND", "NOR"],
-                    correctAnswer: "OR",
-                    explanation: "This truth table represents the OR gate, which outputs 1 if at least one input is 1."
-                },
-                {
-                    question: "Which logic gate is an inverter?",
-                    options: ["AND", "OR", "NOT", "XOR"],
-                    correctAnswer: "NOT",
-                    explanation: "The NOT gate (inverter) inverts the input: outputs 0 when input is 1, and outputs 1 when input is 0."
-                },
-                {
-                    question: "For a NAND gate with inputs A=1 and B=1, what is the output?",
-                    options: ["0", "1", "Undefined", "Depends on the circuit"],
-                    correctAnswer: "0",
-                    explanation: "A NAND gate outputs 0 only when all inputs are 1. So with A=1 and B=1, the output is 0."
-                },
-                {
-                    question: "Which logic gate outputs 1 when the inputs are different?",
-                    options: ["AND", "OR", "XOR", "XNOR"],
-                    correctAnswer: "XOR",
-                    explanation: "The XOR (Exclusive OR) gate outputs 1 when the inputs are different (i.e., 0 and 1 or 1 and 0)."
-                },
-                {
-                    question: "What is the output of an XNOR gate when both inputs are 1?",
-                    options: ["0", "1", "Undefined", "Depends on the circuit"],
-                    correctAnswer: "1",
-                    explanation: "The XNOR gate outputs 1 when the inputs are the same. Since both inputs are 1, the output is 1."
-                },
-                {
-                    question: "Which logic gate is represented by this symbol?<br><svg class='gate-symbol mx-auto my-3' viewBox='0 0 100 50'><path d='M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M30,25 L40,25' fill='none' stroke='black' stroke-width='2'/><circle cx='45' cy='25' r='5' fill='none' stroke='black' stroke-width='2'/><path d='M50,25 L60,25' fill='none' stroke='black' stroke-width='2'/><path d='M0,15 L10,15' fill='none' stroke='black' stroke-width='2'/><path d='M0,35 L10,35' fill='none' stroke='black' stroke-width='2'/></svg>",
-                    options: ["OR", "NOR", "XOR", "XNOR"],
-                    correctAnswer: "NOR",
-                    explanation: "This symbol represents the NOR gate, which is an OR gate followed by an inverter (bubble)."
-                },
-                {
-                    question: "A NOR gate can be created by combining which gates?",
-                    options: ["AND + NOT", "OR + NOT", "NOT + AND", "NOT + XOR"],
-                    correctAnswer: "OR + NOT",
-                    explanation: "A NOR gate is equivalent to an OR gate followed by a NOT gate (inverter)."
-                },
-                {
-                    question: "For a XOR gate with inputs A=0 and B=0, what is the output?",
-                    options: ["0", "1", "Undefined", "Floating"],
-                    correctAnswer: "0",
-                    explanation: "A XOR gate outputs 0 when inputs are the same. Since both A and B are 0, the output is 0."
-                },
-                {
-                    question: "Which gate is considered functionally complete, meaning it can be used to create any other logic function?",
-                    options: ["XOR", "OR", "AND", "NAND"],
-                    correctAnswer: "NAND",
-                    explanation: "The NAND gate is functionally complete, meaning any logical function can be implemented using only NAND gates."
-                },
-                {
-                    question: "Which logic gate is represented by this symbol?<br><svg class='gate-symbol mx-auto my-3' viewBox='0 0 100 50'><path d='M10,10 L30,10 L30,40 L10,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M30,25 L40,25' fill='none' stroke='black' stroke-width='2'/><circle cx='45' cy='25' r='5' fill='none' stroke='black' stroke-width='2'/><path d='M50,25 L60,25' fill='none' stroke='black' stroke-width='2'/><path d='M0,15 L10,15' fill='none' stroke='black' stroke-width='2'/><path d='M0,35 L10,35' fill='none' stroke='black' stroke-width='2'/></svg>",
-                    options: ["AND", "NAND", "OR", "XOR"],
-                    correctAnswer: "NAND",
-                    explanation: "This symbol represents the NAND gate, which is an AND gate followed by an inverter (bubble)."
-                },
-                {
-                    question: "What is the boolean expression for a NOR gate?",
-                    options: ["Y = A + B", "Y = A · B", "Y = (A + B)̄", "Y = (A · B)̄"],
-                    correctAnswer: "Y = (A + B)̄",
-                    explanation: "The boolean expression for a NOR gate is Y = (A + B)̄, which means the opposite (complement) of OR."
-                },
-                {
-                    question: "Which gate is represented by this truth table?<br><table class='mx-auto my-3 border-collapse'><tr><th class='border px-3 py-1'>A</th><th class='border px-3 py-1'>B</th><th class='border px-3 py-1'>Y</th></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td></tr></table>",
-                    options: ["AND", "OR", "NAND", "NOR"],
-                    correctAnswer: "NOR",
-                    explanation: "This truth table represents the NOR gate, which outputs 1 only when all inputs are 0."
-                },
-                {
-                    question: "For an AND gate with inputs A=1 and B=0, what is the output?",
-                    options: ["0", "1", "Undefined", "Depends on the circuit"],
-                    correctAnswer: "0",
-                    explanation: "An AND gate outputs 1 only when all inputs are 1. Since one input is 0, the output is 0."
-                },
-                {
-                    question: "Which gate is represented by this symbol?<br><svg class='gate-symbol mx-auto my-3' viewBox='0 0 100 50'><path d='M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M5,10 C15,10 25,10 25,25 C25,40 15,40 5,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M30,25 L40,25' fill='none' stroke='black' stroke-width='2'/><circle cx='45' cy='25' r='5' fill='none' stroke='black' stroke-width='2'/><path d='M50,25 L60,25' fill='none' stroke='black' stroke-width='2'/><path d='M0,15 L10,15' fill='none' stroke='black' stroke-width='2'/><path d='M0,35 L10,35' fill='none' stroke='black' stroke-width='2'/></svg>",
-                    options: ["XOR", "XNOR", "OR", "NOR"],
-                    correctAnswer: "XNOR",
-                    explanation: "This symbol represents the XNOR gate, which is an XOR gate followed by an inverter (bubble)."
-                },
-                {
-                    question: "What is the output of an OR gate when both inputs are 0?",
-                    options: ["0", "1", "Undefined", "Floating"],
-                    correctAnswer: "0",
-                    explanation: "An OR gate outputs 0 only when all inputs are 0. Since both inputs are 0, the output is 0."
-                },
-                {
-                    question: "Which of these gates is also known as an 'Equivalence gate'?",
-                    options: ["AND", "XOR", "XNOR", "NAND"],
-                    correctAnswer: "XNOR",
-                    explanation: "The XNOR gate is also known as an 'Equivalence gate' because it outputs 1 when the inputs are equivalent (both 0 or both 1)."
-                },
-                {
-                    question: "In digital electronics, which logic gate would you use to check if two bits are the same?",
-                    options: ["AND", "OR", "XOR", "XNOR"],
-                    correctAnswer: "XNOR",
-                    explanation: "The XNOR gate outputs 1 when the inputs are the same (both 0 or both 1), making it ideal for checking if two bits are equal."
-                },
-                {
-                    question: "What does the small circle at the output of a logic gate symbol represent?",
-                    options: ["Amplification", "Inversion", "Oscillation", "Propagation delay"],
-                    correctAnswer: "Inversion",
-                    explanation: "The small circle (bubble) at the output of a logic gate symbol represents inversion or negation of the output."
-                },
-                {
-                    question: "Which logic gate can be used to create all other logic gates?",
-                    options: ["OR", "XOR", "NOR", "Both NAND and NOR"],
-                    correctAnswer: "Both NAND and NOR",
-                    explanation: "Both NAND and NOR gates are functionally complete, meaning any logic function can be created using only NAND gates or only NOR gates."
-                }
-            ];
+    {
+        question: "Which logic gate outputs 1 only when all inputs are 1?",
+        options: ["AND", "OR", "NAND", "NOR"],
+        correctAnswer: "AND",
+        explanation: "The AND gate outputs 1 only when all inputs are 1. Otherwise, it outputs 0."
+    },
+    {
+        question: "Which gate is represented by this truth table?<br><table class='mx-auto my-3 border-collapse'><tr><th class='border px-3 py-1'>A</th><th class='border px-3 py-1'>B</th><th class='border px-3 py-1'>Y</th></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td></tr></table>",
+        options: ["AND", "OR", "NAND", "NOR"],
+        correctAnswer: "OR",
+        explanation: "This truth table represents the OR gate, which outputs 1 if at least one input is 1."
+    },
+    {
+        question: "Which logic gate is an inverter?",
+        options: ["AND", "OR", "NOT", "NAND"],
+        correctAnswer: "NOT",
+        explanation: "The NOT gate (inverter) inverts the input: outputs 0 when input is 1, and outputs 1 when input is 0."
+    },
+    {
+        question: "For a NAND gate with inputs A=1 and B=1, what is the output?",
+        options: ["0", "1", "Undefined", "Depends on the circuit"],
+        correctAnswer: "0",
+        explanation: "A NAND gate outputs 0 only when all inputs are 1. So with A=1 and B=1, the output is 0."
+    },
+    {
+        question: "Which logic gate is represented by this symbol?<br><svg class='gate-symbol mx-auto my-3' viewBox='0 0 100 50'><path d='M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M30,25 L40,25' fill='none' stroke='black' stroke-width='2'/><circle cx='45' cy='25' r='5' fill='none' stroke='black' stroke-width='2'/><path d='M50,25 L60,25' fill='none' stroke='black' stroke-width='2'/><path d='M0,15 L10,15' fill='none' stroke='black' stroke-width='2'/><path d='M0,35 L10,35' fill='none' stroke='black' stroke-width='2'/></svg>",
+        options: ["OR", "NOR", "AND", "NAND"],
+        correctAnswer: "NOR",
+        explanation: "This symbol represents the NOR gate, which is an OR gate followed by an inverter (bubble)."
+    },
+    {
+        question: "A NOR gate can be created by combining which gates?",
+        options: ["AND + NOT", "OR + NOT", "NOT + AND", "NOT + OR"],
+        correctAnswer: "OR + NOT",
+        explanation: "A NOR gate is equivalent to an OR gate followed by a NOT gate (inverter)."
+    },
+    {
+        question: "Which logic gate is represented by this symbol?<br><svg class='gate-symbol mx-auto my-3' viewBox='0 0 100 50'><path d='M10,10 L30,10 L30,40 L10,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M30,25 L40,25' fill='none' stroke='black' stroke-width='2'/><circle cx='45' cy='25' r='5' fill='none' stroke='black' stroke-width='2'/><path d='M50,25 L60,25' fill='none' stroke='black' stroke-width='2'/><path d='M0,15 L10,15' fill='none' stroke='black' stroke-width='2'/><path d='M0,35 L10,35' fill='none' stroke='black' stroke-width='2'/></svg>",
+        options: ["AND", "NAND", "OR", "NOR"],
+        correctAnswer: "NAND",
+        explanation: "This symbol represents the NAND gate, which is an AND gate followed by an inverter (bubble)."
+    },
+    {
+        question: "Which gate is represented by this truth table?<br><table class='mx-auto my-3 border-collapse'><tr><th class='border px-3 py-1'>A</th><th class='border px-3 py-1'>B</th><th class='border px-3 py-1'>Y</th></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td></tr></table>",
+        options: ["AND", "OR", "NAND", "NOR"],
+        correctAnswer: "NOR",
+        explanation: "This truth table represents the NOR gate, which outputs 1 only when all inputs are 0."
+    },
+    {
+        question: "For an AND gate with inputs A=1 and B=0, what is the output?",
+        options: ["0", "1", "Undefined", "Depends on the circuit"],
+        correctAnswer: "0",
+        explanation: "An AND gate outputs 1 only when all inputs are 1. Since one input is 0, the output is 0."
+    },
+    {
+        question: "What is the output of an OR gate when both inputs are 0?",
+        options: ["0", "1", "Undefined", "Floating"],
+        correctAnswer: "0",
+        explanation: "An OR gate outputs 0 only when all inputs are 0. Since both inputs are 0, the output is 0."
+    },
+    {
+        question: "Which logic gate outputs 0 only when all inputs are 1?",
+        options: ["NAND", "NOR", "AND", "OR"],
+        correctAnswer: "NAND",
+        explanation: "A NAND gate outputs 0 only when all inputs are 1; otherwise, it outputs 1."
+    },
+    {
+        question: "Which gate can be used to implement any Boolean function by itself?",
+        options: ["AND", "OR", "NAND", "NOR"],
+        correctAnswer: "NAND",
+        explanation: "The NAND gate is functionally complete, meaning any Boolean function can be implemented using only NAND gates."
+    },
+    {
+        question: "What will be the output of a NOT gate if the input is 0?",
+        options: ["0", "1", "Undefined", "Depends on voltage"],
+        correctAnswer: "1",
+        explanation: "The NOT gate inverts the input. So if input is 0, output will be 1."
+    }
+];
 
             let currentQuestion = 0;
             let score = 0;
