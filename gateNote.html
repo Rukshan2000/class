@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Gates Tutorial and Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gate-table td, .gate-table th {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .truth-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            margin-bottom: 16px;
+        }
+        .truth-table th, .truth-table td {
+            border: 1px solid #e2e8f0;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        .truth-table th {
+            background-color: #f1f5f9;
+        }
+        .gate-diagram {
+            width: 200px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-blue-800 mb-2">Logic Gates: The Building Blocks of Digital Electronics</h1>
+            <p class="text-gray-600">Learn about AND, OR, NOT, NAND, NOR, XOR, and XNOR gates</p>
+        </header>
+
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-blue-700 mb-4">Introduction to Logic Gates</h2>
+            <p class="mb-4">Logic gates are fundamental building blocks of digital circuits. They perform basic logical operations on one or more binary inputs and produce a single binary output. These gates are implemented using electronic switches like transistors.</p>
+            
+            <p class="mb-4">In digital electronics, we use the following values:</p>
+            <ul class="list-disc pl-8 mb-6">
+                <li>0 (LOW, FALSE)</li>
+                <li>1 (HIGH, TRUE)</li>
+            </ul>
+            
+            <p>Let's explore each logic gate, its symbol, truth table, and behavior.</p>
+        </div>
+
+        <div id="gates-section" class="space-y-8">
+            <!-- AND Gate -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold text-blue-700 mb-2">AND Gate</h2>
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <p class="mb-2">The AND gate outputs 1 only when all inputs are 1; otherwise, it outputs 0.</p>
+                        <p class="mb-4"><strong>Boolean Expression:</strong> Y = A · B (or A AND B)</p>
+                        
+                        <table class="truth-table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <th>B</th>
+                                    <th>Y (Output)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center">
+                        <svg class="gate-diagram" viewBox="0 0 100 50">
+                            <path d="M10,10 L30,10 L30,40 L10,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M30,25 C50,25 50,25 70,25" fill="none" stroke="black" stroke-width="2"/>
+                            <circle cx="75" cy="25" r="5" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M80,25 L90,25" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,15 L10,15" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,35 L10,35" fill="none" stroke="black" stroke-width="2"/>
+                            <text x="15" y="28" font-size="12">AND</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="font-semibold mb-2">Try it out:</h3>
+                    <div class="flex space-x-4 items-center">
+                        <div>
+                            <label class="block text-sm">Input A:</label>
+                            <select class="and-input border rounded p-1" data-input="A">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Input B:</label>
+                            <select class="and-input border rounded p-1" data-input="B">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div class="bg-gray-100 p-2 rounded">
+                            <span class="text-sm">Output:</span>
+                            <span id="and-output" class="font-bold">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OR Gate -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold text-blue-700 mb-2">OR Gate</h2>
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <p class="mb-2">The OR gate outputs 1 if at least one of the inputs is 1; otherwise, it outputs 0.</p>
+                        <p class="mb-4"><strong>Boolean Expression:</strong> Y = A + B (or A OR B)</p>
+                        
+                        <table class="truth-table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <th>B</th>
+                                    <th>Y (Output)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center">
+                        <svg class="gate-diagram" viewBox="0 0 100 50">
+                            <path d="M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M30,25 C50,25 50,25 70,25" fill="none" stroke="black" stroke-width="2"/>
+                            <circle cx="75" cy="25" r="5" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M80,25 L90,25" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,15 L10,15" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,35 L10,35" fill="none" stroke="black" stroke-width="2"/>
+                            <text x="15" y="28" font-size="12">OR</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="font-semibold mb-2">Try it out:</h3>
+                    <div class="flex space-x-4 items-center">
+                        <div>
+                            <label class="block text-sm">Input A:</label>
+                            <select class="or-input border rounded p-1" data-input="A">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Input B:</label>
+                            <select class="or-input border rounded p-1" data-input="B">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div class="bg-gray-100 p-2 rounded">
+                            <span class="text-sm">Output:</span>
+                            <span id="or-output" class="font-bold">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOT Gate -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold text-blue-700 mb-2">NOT Gate (Inverter)</h2>
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <p class="mb-2">The NOT gate inverts the input: outputs 0 when the input is 1, and outputs 1 when the input is 0.</p>
+                        <p class="mb-4"><strong>Boolean Expression:</strong> Y = Ā (or NOT A)</p>
+                        
+                        <table class="truth-table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <th>Y (Output)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center">
+                        <svg class="gate-diagram" viewBox="0 0 100 50">
+                            <path d="M10,25 L30,10 L30,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <circle cx="35" cy="25" r="5" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M40,25 L50,25" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,25 L10,25" fill="none" stroke="black" stroke-width="2"/>
+                            <text x="15" y="28" font-size="10">NOT</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="font-semibold mb-2">Try it out:</h3>
+                    <div class="flex space-x-4 items-center">
+                        <div>
+                            <label class="block text-sm">Input A:</label>
+                            <select class="not-input border rounded p-1" data-input="A">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div class="bg-gray-100 p-2 rounded">
+                            <span class="text-sm">Output:</span>
+                            <span id="not-output" class="font-bold">1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAND Gate -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold text-blue-700 mb-2">NAND Gate</h2>
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <p class="mb-2">The NAND gate is the inverse of an AND gate. It outputs 0 only when all inputs are 1; otherwise, it outputs 1.</p>
+                        <p class="mb-4"><strong>Boolean Expression:</strong> Y = (A · B)̄ (or NOT (A AND B))</p>
+                        
+                        <table class="truth-table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <th>B</th>
+                                    <th>Y (Output)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center">
+                        <svg class="gate-diagram" viewBox="0 0 100 50">
+                            <path d="M10,10 L30,10 L30,40 L10,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M30,25 L40,25" fill="none" stroke="black" stroke-width="2"/>
+                            <circle cx="45" cy="25" r="5" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M50,25 L60,25" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,15 L10,15" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,35 L10,35" fill="none" stroke="black" stroke-width="2"/>
+                            <text x="12" y="28" font-size="8">NAND</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="font-semibold mb-2">Try it out:</h3>
+                    <div class="flex space-x-4 items-center">
+                        <div>
+                            <label class="block text-sm">Input A:</label>
+                            <select class="nand-input border rounded p-1" data-input="A">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Input B:</label>
+                            <select class="nand-input border rounded p-1" data-input="B">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div class="bg-gray-100 p-2 rounded">
+                            <span class="text-sm">Output:</span>
+                            <span id="nand-output" class="font-bold">1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOR Gate -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold text-blue-700 mb-2">NOR Gate</h2>
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <p class="mb-2">The NOR gate is the inverse of an OR gate. It outputs 1 only when all inputs are 0; otherwise, it outputs 0.</p>
+                        <p class="mb-4"><strong>Boolean Expression:</strong> Y = (A + B)̄ (or NOT (A OR B))</p>
+                        
+                        <table class="truth-table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <th>B</th>
+                                    <th>Y (Output)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center">
+                        <svg class="gate-diagram" viewBox="0 0 100 50">
+                            <path d="M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M30,25 L40,25" fill="none" stroke="black" stroke-width="2"/>
+                            <circle cx="45" cy="25" r="5" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M50,25 L60,25" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,15 L10,15" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,35 L10,35" fill="none" stroke="black" stroke-width="2"/>
+                            <text x="12" y="28" font-size="8">NOR</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="font-semibold mb-2">Try it out:</h3>
+                    <div class="flex space-x-4 items-center">
+                        <div>
+                            <label class="block text-sm">Input A:</label>
+                            <select class="nor-input border rounded p-1" data-input="A">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Input B:</label>
+                            <select class="nor-input border rounded p-1" data-input="B">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div class="bg-gray-100 p-2 rounded">
+                            <span class="text-sm">Output:</span>
+                            <span id="nor-output" class="font-bold">1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- XOR Gate -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold text-blue-700 mb-2">XOR Gate (Exclusive OR)</h2>
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <p class="mb-2">The XOR gate outputs 1 when the number of 1s in the input is odd; otherwise, it outputs 0.</p>
+                        <p class="mb-4"><strong>Boolean Expression:</strong> Y = A ⊕ B (or A XOR B)</p>
+                        
+                        <table class="truth-table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <th>B</th>
+                                    <th>Y (Output)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center">
+                        <svg class="gate-diagram" viewBox="0 0 100 50">
+                            <path d="M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M5,10 C15,10 25,10 25,25 C25,40 15,40 5,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M30,25 C50,25 50,25 70,25" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,15 L10,15" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,35 L10,35" fill="none" stroke="black" stroke-width="2"/>
+                            <text x="15" y="28" font-size="10">XOR</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="font-semibold mb-2">Try it out:</h3>
+                    <div class="flex space-x-4 items-center">
+                        <div>
+                            <label class="block text-sm">Input A:</label>
+                            <select class="xor-input border rounded p-1" data-input="A">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Input B:</label>
+                            <select class="xor-input border rounded p-1" data-input="B">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div class="bg-gray-100 p-2 rounded">
+                            <span class="text-sm">Output:</span>
+                            <span id="xor-output" class="font-bold">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- XNOR Gate -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold text-blue-700 mb-2">XNOR Gate (Exclusive NOR)</h2>
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <p class="mb-2">The XNOR gate outputs 1 when the number of 1s in the input is even; otherwise, it outputs 0.</p>
+                        <p class="mb-4"><strong>Boolean Expression:</strong> Y = (A ⊕ B)̄ (or NOT (A XOR B))</p>
+                        
+                        <table class="truth-table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <th>B</th>
+                                    <th>Y (Output)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center">
+                        <svg class="gate-diagram" viewBox="0 0 100 50">
+                            <path d="M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M5,10 C15,10 25,10 25,25 C25,40 15,40 5,40 Z" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M30,25 L40,25" fill="none" stroke="black" stroke-width="2"/>
+                            <circle cx="45" cy="25" r="5" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M50,25 L60,25" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,15 L10,15" fill="none" stroke="black" stroke-width="2"/>
+                            <path d="M0,35 L10,35" fill="none" stroke="black" stroke-width="2"/>
+                            <text x="12" y="28" font-size="8">XNOR</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="font-semibold mb-2">Try it out:</h3>
+                    <div class="flex space-x-4 items-center">
+                        <div>
+                            <label class="block text-sm">Input A:</label>
+                            <select class="xnor-input border rounded p-1" data-input="A">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Input B:</label>
+                            <select class="xnor-input border rounded p-1" data-input="B">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                        <div class="bg-gray-100 p-2 rounded">
+                            <span class="text-sm">Output:</span>
+                            <span id="xnor-output" class="font-bold">1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+            <footer class="text-center text-gray-600 text-sm mt-12">
+                <p>© 2023 Logic Gates Tutorial. All rights reserved.</p>
+                <p class="mt-2">Educational resource for digital electronics and computer science.</p>
+            </footer>
+        </div>
+    
+        <script>
+            // Interactive logic for the gate demonstrations
+            document.addEventListener('DOMContentLoaded', function() {
+                // AND Gate
+                document.querySelectorAll('.and-input').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const a = document.querySelector('.and-input[data-input="A"]').value === '1';
+                        const b = document.querySelector('.and-input[data-input="B"]').value === '1';
+                        document.getElementById('and-output').textContent = (a && b) ? '1' : '0';
+                    });
+                });
+    
+                // OR Gate
+                document.querySelectorAll('.or-input').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const a = document.querySelector('.or-input[data-input="A"]').value === '1';
+                        const b = document.querySelector('.or-input[data-input="B"]').value === '1';
+                        document.getElementById('or-output').textContent = (a || b) ? '1' : '0';
+                    });
+                });
+    
+                // NOT Gate
+                document.querySelector('.not-input').addEventListener('change', function() {
+                    const a = this.value === '1';
+                    document.getElementById('not-output').textContent = (!a) ? '1' : '0';
+                });
+    
+                // NAND Gate
+                document.querySelectorAll('.nand-input').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const a = document.querySelector('.nand-input[data-input="A"]').value === '1';
+                        const b = document.querySelector('.nand-input[data-input="B"]').value === '1';
+                        document.getElementById('nand-output').textContent = !(a && b) ? '1' : '0';
+                    });
+                });
+    
+                // NOR Gate
+                document.querySelectorAll('.nor-input').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const a = document.querySelector('.nor-input[data-input="A"]').value === '1';
+                        const b = document.querySelector('.nor-input[data-input="B"]').value === '1';
+                        document.getElementById('nor-output').textContent = !(a || b) ? '1' : '0';
+                    });
+                });
+    
+                // XOR Gate
+                document.querySelectorAll('.xor-input').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const a = document.querySelector('.xor-input[data-input="A"]').value === '1';
+                        const b = document.querySelector('.xor-input[data-input="B"]').value === '1';
+                        document.getElementById('xor-output').textContent = (a !== b) ? '1' : '0';
+                    });
+                });
+    
+                // XNOR Gate
+                document.querySelectorAll('.xnor-input').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const a = document.querySelector('.xnor-input[data-input="A"]').value === '1';
+                        const b = document.querySelector('.xnor-input[data-input="B"]').value === '1';
+                        document.getElementById('xnor-output').textContent = (a === b) ? '1' : '0';
+                    });
+                });
+    
+                // Quiz functionality would go here
+            });
+        </script>
+    </body>
+    </html>

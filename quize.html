@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Gates Interactive Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gate-symbol {
+            width: 100px;
+            height: 80px;
+        }
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        .option-card:hover {
+            transform: translateY(-5px);
+        }
+        .correct-answer {
+            background-color: #d1fae5;
+            border-color: #10b981;
+        }
+        .wrong-answer {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        .question-container {
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body class="bg-blue-50 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-blue-800 mb-2">Logic Gates Interactive Quiz</h1>
+            <p class="text-gray-600">Test your knowledge of digital logic gates</p>
+        </header>
+
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-blue-700">Quiz Your Knowledge</h2>
+                <div class="flex items-center space-x-2">
+                    <span class="text-gray-700">Question: </span>
+                    <span id="question-number" class="font-bold">1</span>
+                    <span class="text-gray-700">/</span>
+                    <span id="total-questions" class="text-gray-700">10</span>
+                </div>
+            </div>
+
+            <div id="quiz-container" class="question-container">
+                <div id="start-screen" class="text-center py-10">
+                    <h3 class="text-2xl font-bold text-blue-800 mb-4">Ready to test your knowledge?</h3>
+                    <p class="mb-6 text-gray-700">This quiz will test your understanding of logic gates including AND, OR, NOT, NAND, NOR, XOR, and XNOR gates.</p>
+                    <p class="mb-8 text-gray-700">You'll be tested on gate symbols, truth tables, and behaviors.</p>
+                    <button id="start-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+                        Start Quiz
+                    </button>
+                </div>
+
+                <div id="question-screen" class="hidden">
+                    <div id="question-text" class="text-lg font-medium text-gray-800 mb-4"></div>
+                    <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"></div>
+                    <div class="flex justify-between items-center">
+                        <button id="prev-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed">
+                            Previous
+                        </button>
+                        <div id="feedback" class="text-center font-medium"></div>
+                        <button id="next-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed">
+                            Next
+                        </button>
+                    </div>
+                </div>
+
+                <div id="results-screen" class="hidden text-center py-10">
+                    <h3 class="text-2xl font-bold text-blue-800 mb-4">Quiz Results</h3>
+                    <div class="mb-6">
+                        <span class="text-6xl font-bold text-blue-700" id="score-display">0</span>
+                        <span class="text-2xl text-gray-700"> / 10</span>
+                    </div>
+                    <p class="mb-6 text-lg text-gray-700" id="result-message"></p>
+                    <div class="mb-8">
+                        <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                            <div id="score-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span>0%</span>
+                            <span>50%</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+                    <button id="retry-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="text-center text-gray-600 text-sm mt-12">
+            <p>© 2025 Logic Gates Interactive Quiz. All rights reserved.</p>
+            <p class="mt-2">Educational resource for digital electronics and computer science students.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz questions
+            const quizQuestions = [
+                {
+                    question: "Which logic gate outputs 1 only when all inputs are 1?",
+                    options: ["AND", "OR", "NAND", "NOR"],
+                    correctAnswer: "AND",
+                    explanation: "The AND gate outputs 1 only when all inputs are 1. Otherwise, it outputs 0."
+                },
+                {
+                    question: "Which gate is represented by this truth table?<br><table class='mx-auto my-3 border-collapse'><tr><th class='border px-3 py-1'>A</th><th class='border px-3 py-1'>B</th><th class='border px-3 py-1'>Y</th></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td></tr></table>",
+                    options: ["AND", "OR", "NAND", "NOR"],
+                    correctAnswer: "OR",
+                    explanation: "This truth table represents the OR gate, which outputs 1 if at least one input is 1."
+                },
+                {
+                    question: "Which logic gate is an inverter?",
+                    options: ["AND", "OR", "NOT", "XOR"],
+                    correctAnswer: "NOT",
+                    explanation: "The NOT gate (inverter) inverts the input: outputs 0 when input is 1, and outputs 1 when input is 0."
+                },
+                {
+                    question: "For a NAND gate with inputs A=1 and B=1, what is the output?",
+                    options: ["0", "1", "Undefined", "Depends on the circuit"],
+                    correctAnswer: "0",
+                    explanation: "A NAND gate outputs 0 only when all inputs are 1. So with A=1 and B=1, the output is 0."
+                },
+                {
+                    question: "Which logic gate outputs 1 when the inputs are different?",
+                    options: ["AND", "OR", "XOR", "XNOR"],
+                    correctAnswer: "XOR",
+                    explanation: "The XOR (Exclusive OR) gate outputs 1 when the inputs are different (i.e., 0 and 1 or 1 and 0)."
+                },
+                {
+                    question: "What is the output of an XNOR gate when both inputs are 1?",
+                    options: ["0", "1", "Undefined", "Depends on the circuit"],
+                    correctAnswer: "1",
+                    explanation: "The XNOR gate outputs 1 when the inputs are the same. Since both inputs are 1, the output is 1."
+                },
+                {
+                    question: "Which logic gate is represented by this symbol?<br><svg class='gate-symbol mx-auto my-3' viewBox='0 0 100 50'><path d='M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M30,25 L40,25' fill='none' stroke='black' stroke-width='2'/><circle cx='45' cy='25' r='5' fill='none' stroke='black' stroke-width='2'/><path d='M50,25 L60,25' fill='none' stroke='black' stroke-width='2'/><path d='M0,15 L10,15' fill='none' stroke='black' stroke-width='2'/><path d='M0,35 L10,35' fill='none' stroke='black' stroke-width='2'/></svg>",
+                    options: ["OR", "NOR", "XOR", "XNOR"],
+                    correctAnswer: "NOR",
+                    explanation: "This symbol represents the NOR gate, which is an OR gate followed by an inverter (bubble)."
+                },
+                {
+                    question: "A NOR gate can be created by combining which gates?",
+                    options: ["AND + NOT", "OR + NOT", "NOT + AND", "NOT + XOR"],
+                    correctAnswer: "OR + NOT",
+                    explanation: "A NOR gate is equivalent to an OR gate followed by a NOT gate (inverter)."
+                },
+                {
+                    question: "For a XOR gate with inputs A=0 and B=0, what is the output?",
+                    options: ["0", "1", "Undefined", "Floating"],
+                    correctAnswer: "0",
+                    explanation: "A XOR gate outputs 0 when inputs are the same. Since both A and B are 0, the output is 0."
+                },
+                {
+                    question: "Which gate is considered functionally complete, meaning it can be used to create any other logic function?",
+                    options: ["XOR", "OR", "AND", "NAND"],
+                    correctAnswer: "NAND",
+                    explanation: "The NAND gate is functionally complete, meaning any logical function can be implemented using only NAND gates."
+                },
+                {
+                    question: "Which logic gate is represented by this symbol?<br><svg class='gate-symbol mx-auto my-3' viewBox='0 0 100 50'><path d='M10,10 L30,10 L30,40 L10,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M30,25 L40,25' fill='none' stroke='black' stroke-width='2'/><circle cx='45' cy='25' r='5' fill='none' stroke='black' stroke-width='2'/><path d='M50,25 L60,25' fill='none' stroke='black' stroke-width='2'/><path d='M0,15 L10,15' fill='none' stroke='black' stroke-width='2'/><path d='M0,35 L10,35' fill='none' stroke='black' stroke-width='2'/></svg>",
+                    options: ["AND", "NAND", "OR", "XOR"],
+                    correctAnswer: "NAND",
+                    explanation: "This symbol represents the NAND gate, which is an AND gate followed by an inverter (bubble)."
+                },
+                {
+                    question: "What is the boolean expression for a NOR gate?",
+                    options: ["Y = A + B", "Y = A · B", "Y = (A + B)̄", "Y = (A · B)̄"],
+                    correctAnswer: "Y = (A + B)̄",
+                    explanation: "The boolean expression for a NOR gate is Y = (A + B)̄, which means the opposite (complement) of OR."
+                },
+                {
+                    question: "Which gate is represented by this truth table?<br><table class='mx-auto my-3 border-collapse'><tr><th class='border px-3 py-1'>A</th><th class='border px-3 py-1'>B</th><th class='border px-3 py-1'>Y</th></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td></tr><tr><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td><td class='border px-3 py-1'>0</td></tr><tr><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>1</td><td class='border px-3 py-1'>0</td></tr></table>",
+                    options: ["AND", "OR", "NAND", "NOR"],
+                    correctAnswer: "NOR",
+                    explanation: "This truth table represents the NOR gate, which outputs 1 only when all inputs are 0."
+                },
+                {
+                    question: "For an AND gate with inputs A=1 and B=0, what is the output?",
+                    options: ["0", "1", "Undefined", "Depends on the circuit"],
+                    correctAnswer: "0",
+                    explanation: "An AND gate outputs 1 only when all inputs are 1. Since one input is 0, the output is 0."
+                },
+                {
+                    question: "Which gate is represented by this symbol?<br><svg class='gate-symbol mx-auto my-3' viewBox='0 0 100 50'><path d='M10,10 C20,10 30,10 30,25 C30,40 20,40 10,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M5,10 C15,10 25,10 25,25 C25,40 15,40 5,40 Z' fill='none' stroke='black' stroke-width='2'/><path d='M30,25 L40,25' fill='none' stroke='black' stroke-width='2'/><circle cx='45' cy='25' r='5' fill='none' stroke='black' stroke-width='2'/><path d='M50,25 L60,25' fill='none' stroke='black' stroke-width='2'/><path d='M0,15 L10,15' fill='none' stroke='black' stroke-width='2'/><path d='M0,35 L10,35' fill='none' stroke='black' stroke-width='2'/></svg>",
+                    options: ["XOR", "XNOR", "OR", "NOR"],
+                    correctAnswer: "XNOR",
+                    explanation: "This symbol represents the XNOR gate, which is an XOR gate followed by an inverter (bubble)."
+                },
+                {
+                    question: "What is the output of an OR gate when both inputs are 0?",
+                    options: ["0", "1", "Undefined", "Floating"],
+                    correctAnswer: "0",
+                    explanation: "An OR gate outputs 0 only when all inputs are 0. Since both inputs are 0, the output is 0."
+                },
+                {
+                    question: "Which of these gates is also known as an 'Equivalence gate'?",
+                    options: ["AND", "XOR", "XNOR", "NAND"],
+                    correctAnswer: "XNOR",
+                    explanation: "The XNOR gate is also known as an 'Equivalence gate' because it outputs 1 when the inputs are equivalent (both 0 or both 1)."
+                },
+                {
+                    question: "In digital electronics, which logic gate would you use to check if two bits are the same?",
+                    options: ["AND", "OR", "XOR", "XNOR"],
+                    correctAnswer: "XNOR",
+                    explanation: "The XNOR gate outputs 1 when the inputs are the same (both 0 or both 1), making it ideal for checking if two bits are equal."
+                },
+                {
+                    question: "What does the small circle at the output of a logic gate symbol represent?",
+                    options: ["Amplification", "Inversion", "Oscillation", "Propagation delay"],
+                    correctAnswer: "Inversion",
+                    explanation: "The small circle (bubble) at the output of a logic gate symbol represents inversion or negation of the output."
+                },
+                {
+                    question: "Which logic gate can be used to create all other logic gates?",
+                    options: ["OR", "XOR", "NOR", "Both NAND and NOR"],
+                    correctAnswer: "Both NAND and NOR",
+                    explanation: "Both NAND and NOR gates are functionally complete, meaning any logic function can be created using only NAND gates or only NOR gates."
+                }
+            ];
+
+            let currentQuestion = 0;
+            let score = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+            
+            const startScreen = document.getElementById('start-screen');
+            const questionScreen = document.getElementById('question-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const questionNumber = document.getElementById('question-number');
+            const totalQuestions = document.getElementById('total-questions');
+            const feedback = document.getElementById('feedback');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const scoreDisplay = document.getElementById('score-display');
+            const scoreBar = document.getElementById('score-bar');
+            const resultMessage = document.getElementById('result-message');
+
+            // Set total questions
+            totalQuestions.textContent = quizQuestions.length;
+
+            // Start Quiz
+            document.getElementById('start-btn').addEventListener('click', function() {
+                startScreen.classList.add('hidden');
+                questionScreen.classList.remove('hidden');
+                loadQuestion(currentQuestion);
+            });
+
+            // Retry Quiz
+            document.getElementById('retry-btn').addEventListener('click', function() {
+                currentQuestion = 0;
+                score = 0;
+                userAnswers = new Array(quizQuestions.length).fill(null);
+                resultsScreen.classList.add('hidden');
+                questionScreen.classList.remove('hidden');
+                loadQuestion(currentQuestion);
+            });
+
+            // Previous Question
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                }
+            });
+
+            // Next Question
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestion < quizQuestions.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                } else {
+                    showResults();
+                }
+            });
+
+            function loadQuestion(index) {
+                // Reset feedback
+                feedback.textContent = '';
+                feedback.className = '';
+
+                // Update question number
+                questionNumber.textContent = index + 1;
+
+                // Enable/disable prev/next buttons
+                prevBtn.disabled = index === 0;
+                
+                if (userAnswers[index] !== null) {
+                    nextBtn.textContent = index === quizQuestions.length - 1 ? 'Show Results' : 'Next';
+                } else {
+                    nextBtn.textContent = 'Skip';
+                }
+
+                // Display question
+                questionText.innerHTML = quizQuestions[index].question;
+                
+                // Clear options
+                optionsContainer.innerHTML = '';
+                
+                // Add options
+                quizQuestions[index].options.forEach((option, optIndex) => {
+                    const optionCard = document.createElement('div');
+                    optionCard.className = `option-card p-4 border-2 rounded-lg cursor-pointer transition-all`;
+                    
+                    // If user already answered this question
+                    if (userAnswers[index] !== null) {
+                        if (option === userAnswers[index]) {
+                            if (option === quizQuestions[index].correctAnswer) {
+                                optionCard.classList.add('correct-answer');
+                            } else {
+                                optionCard.classList.add('wrong-answer');
+                            }
+                        } else if (option === quizQuestions[index].correctAnswer) {
+                            optionCard.classList.add('correct-answer');
+                        }
+                    } else {
+                        optionCard.classList.add('hover:bg-blue-50', 'hover:border-blue-400');
+                    }
+                    
+                    optionCard.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 flex items-center justify-center rounded-full 
+                                ${userAnswers[index] === option ? 'bg-blue-600 text-white' : 'bg-gray-200'} mr-3">
+                                ${String.fromCharCode(65 + optIndex)}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionCard.addEventListener('click', function() {
+                        if (userAnswers[index] === null) {
+                            selectAnswer(index, option);
+                        }
+                    });
+                    
+                    optionsContainer.appendChild(optionCard);
+                });
+            }
+
+            function selectAnswer(index, selectedOption) {
+                userAnswers[index] = selectedOption;
+                
+                // Check if answer is correct
+                const isCorrect = selectedOption === quizQuestions[index].correctAnswer;
+                if (isCorrect) {
+                    score++;
+                }
+                
+                // Show feedback
+                feedback.textContent = isCorrect ? 
+                    '✓ Correct! ' + quizQuestions[index].explanation : 
+                    '✗ Incorrect. ' + quizQuestions[index].explanation;
+                feedback.className = isCorrect ? 'text-green-600' : 'text-red-600';
+                
+                // Update buttons
+                nextBtn.textContent = index === quizQuestions.length - 1 ? 'Show Results' : 'Next';
+                
+                // Reload question to update UI
+                loadQuestion(index);
+            }
+
+            function showResults() {
+                questionScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+                
+                // Calculate percentage
+                const percentage = (score / quizQuestions.length) * 100;
+                
+                // Update score display
+                scoreDisplay.textContent = score;
+                scoreBar.style.width = `${percentage}%`;
+                
+                // Show appropriate message
+                if (percentage >= 90) {
+                    resultMessage.textContent = "Excellent! You have a strong understanding of logic gates!";
+                } else if (percentage >= 70) {
+                    resultMessage.textContent = "Good job! You understand most logic gate concepts.";
+                } else if (percentage >= 50) {
+                    resultMessage.textContent = "You have a basic understanding of logic gates, but there's room to improve.";
+                } else {
+                    resultMessage.textContent = "You might want to revisit the logic gates material and try again.";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
